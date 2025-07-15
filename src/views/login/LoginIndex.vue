@@ -1,6 +1,8 @@
 <script setup>
 import { User, Lock, Orange } from '@element-plus/icons-vue'
 import { ref,onMounted } from 'vue'
+import 'element-plus/theme-chalk/dark/css-vars.css'
+// import { userRequestServer } from '@/api/user'
 // import { ElButton } from 'element-plus'
 
 const LoginFrom = ref({
@@ -9,12 +11,20 @@ const LoginFrom = ref({
   token:''
 })
 
+const tokenShow = ref(false)
+
+const tokenState = () =>{
+  tokenShow.value = !tokenShow.value
+  LoginFrom.value = {}
+}
+
 const rules = {
   username:[
     { required: true,message:'请输入用户名',trigger:'blur'}
   ],
   password:[
-    { required:true,message:'请输入密码',trigger:'blur'}
+    { required:true,message:'请输入密码',trigger:'blur'},
+    { pattern:/^\S{5,15}$/,message:'请输入5-15位数密码非空字符',trigger:'blur'}
   ],
   token:[
     {required:true,message:'请输入token',trigger:'blur',type:'string'}
@@ -42,6 +52,14 @@ onMounted(() => {
   window.addEventListener('beforeunload',  getRandomBg); // 刷新前更新
 });
 
+const form = ref()
+const loginClick = async () =>{
+  await form.value.validate()
+  // await userRequestServer(LoginFrom.value)
+}
+
+
+
 </script>
 
 <template>
@@ -66,11 +84,20 @@ onMounted(() => {
           <el-form-item prop="password">
             <el-input v-model="LoginFrom.password" :prefix-icon="Lock" type="password" placeholder="密码" show-password></el-input>
           </el-form-item>
-          <el-form-item prop="token">
+          <el-form-item prop="token" v-if="tokenShow">
             <el-input v-model="LoginFrom.token" :prefix-icon="Orange" type="password" placeholder="安全令牌" show-password></el-input>
           </el-form-item>
+          <el-form-item prop="token" v-else>
+            <div>&nbsp;</div>
+          </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="login-btn">登录系统</el-button>
+            <el-button type="primary" class="login-btn" @click="loginClick">登录系统</el-button>
+          </el-form-item>
+          <el-form-item v-if="tokenShow">
+            <el-button type="primary" class="login-btn" color="#FFE0F5" @click="tokenState">切换非token登录</el-button>
+          </el-form-item>
+          <el-form-item v-else>
+            <el-button type="primary" class="login-btn" @click="tokenState">切换token登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -130,6 +157,7 @@ onMounted(() => {
   font-weight: bold;
   letter-spacing: 2px;
 }
+
 
 /* 深色模式适配 */
 @media (prefers-color-scheme: dark) {
