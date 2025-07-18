@@ -11,6 +11,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.5.17)
+      '@pureadmin/utils':
+        specifier: ^2.6.2
+        version: 2.6.2(vue@3.5.17)
       axios:
         specifier: ^1.10.0
         version: 1.10.0
@@ -503,6 +506,17 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@pureadmin/utils@2.6.2':
+    resolution: {integrity: sha512-Dqk7R9Dm9YAzAvMlOO3uudu/eCb5B2eZSPexKlaedTngO/A+OtcFH0870T69nXsUqrwd3LJI6ETL19C9ihofIw==}
+    peerDependencies:
+      echarts: '*'
+      vue: '*'
+    peerDependenciesMeta:
+      echarts:
+        optional: true
+      vue:
+        optional: true
 
   '@rolldown/pluginutils@1.0.0-beta.19':
     resolution: {integrity: sha512-3FL3mnMbPu0muGOCaKAhhFEYmqv9eTfPSJRJmANrCwtgK8VuxpsZDGK+m0LYAGoyO8+0j5uRe4PeyPDK1yA/hA==}
@@ -2934,6 +2948,10 @@ snapshots:
   '@pkgr/core@0.2.7': {}
 
   '@polka/url@1.0.0-next.29': {}
+
+  '@pureadmin/utils@2.6.2(vue@3.5.17)':
+    optionalDependencies:
+      vue: 3.5.17
 
   '@rolldown/pluginutils@1.0.0-beta.19': {}
 

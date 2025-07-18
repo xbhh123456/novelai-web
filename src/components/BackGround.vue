@@ -46,7 +46,7 @@ onMounted(() => {
     bottom: 0;
     background: inherit;
     filter: blur(10px);
-    z-index: 0;
+    z-index: 1;
   }
 }
 </style>

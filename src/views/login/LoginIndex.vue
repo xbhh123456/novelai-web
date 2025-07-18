@@ -71,14 +71,14 @@ const loginClick = async () => {
             <h1 class="title">NOVELAI Web平台</h1>
           </el-form-item>
           <el-form-item prop="username">
-            <el-input v-model="LoginFrom.username" :prefix-icon="User" placeholder="用户名"></el-input>
+            <el-input v-model="LoginFrom.username" clearable :prefix-icon="User" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="LoginFrom.password" :prefix-icon="Lock" type="password" placeholder="密码"
+            <el-input v-model="LoginFrom.password" clearable :prefix-icon="Lock" type="password" placeholder="密码"
               show-password></el-input>
           </el-form-item>
           <el-form-item prop="token" v-if="tokenShow">
-            <el-input v-model="LoginFrom.token" :prefix-icon="Orange" type="password" placeholder="安全令牌"
+            <el-input v-model="LoginFrom.token" clearable :prefix-icon="Orange" type="password" placeholder="安全令牌"
               show-password></el-input>
           </el-form-item>
           <el-form-item prop="token" v-else>
@@ -104,6 +104,11 @@ const loginClick = async () => {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  background-size: cover; // 关键属性：保持比例覆盖区域
+  background-repeat: no-repeat; // 禁止重复平铺
+  background-position: center; // 始终居中显示
+  background-attachment: fixed; // 防止滚动时错位（可选）
+
 
 
   &::before {
@@ -114,8 +119,10 @@ const loginClick = async () => {
     right: 0;
     bottom: 0;
     background: inherit;
-    filter: blur(10px);
+    filter: blur(2px);
     z-index: 0;
+    background-size: cover; // 伪元素同步设置
+    background-position: center;
   }
 }
 
@@ -127,6 +134,12 @@ const loginClick = async () => {
   position: relative;
   /* 确保在模糊层上方 */
   z-index: 2;
+  width: 40%;
+  max-width: 500px;
+  min-width: 320px;
+  margin: 0 auto !important;
+  left: 0;
+  transform: none;
 }
 
 /* 磨砂玻璃效果层 */
@@ -139,6 +152,7 @@ const loginClick = async () => {
   padding: 40px 30px;
 }
 
+//登录标题
 .title {
   text-align: center;
   color: #fff;
@@ -146,6 +160,7 @@ const loginClick = async () => {
   margin-bottom: 30px;
 }
 
+//登录按钮
 .login-btn {
   width: 100%;
   margin-top: 10px;
@@ -163,6 +178,26 @@ const loginClick = async () => {
 
   .title {
     color: #e0e0e0;
+  }
+}
+
+@media (max-width: 992px) {
+  .login {
+    width: 70% !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .login {
+    width: 90% !important;
+    padding: 20px !important;
+  }
+
+  .bg::before {
+    filter: blur(1px); // 移动端减小模糊度
   }
 }
 </style>
