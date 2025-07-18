@@ -156,4 +156,71 @@ onMounted(() => {
 .top-section {
   min-height: 54%;
 }
+
+.bg {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-size: cover; // 关键属性：保持比例覆盖区域
+  background-repeat: no-repeat; // 禁止重复平铺
+  background-position: center; // 始终居中显示
+  background-attachment: fixed; // 防止滚动时错位（可选）
+
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(2px);
+    z-index: 0;
+    background-size: cover; // 伪元素同步设置
+    background-position: center;
+  }
+}
+
+.transparent-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.left-panel {
+  height: 99vh;
+  margin: 0.7vh 0;
+}
+
+.center-container {
+  height: 99vh;
+  margin: 0.7vh 0;
+}
+
+.sub-panel {
+  padding: 20px;
+}
+
+.header-bar {
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.input-item {
+  margin-bottom: 15px;
+}
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+
 </style>
