@@ -1,12 +1,12 @@
 <script setup>
 import { User, Lock, Orange } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import BaG from '@/components/Background.vue'
+import { useBgimagesStore } from '@/stores'
+
+
 // import { userRequestServer } from '@/api/user'
-// import { ElButton } = 'element-plus'
-
-
+// import { ElButton } from 'element-plus'
 
 const LoginFrom = ref({
   username: '',
@@ -33,7 +33,23 @@ const rules = {
     { required: true, message: '请输入token', trigger: 'blur', type: 'string' }
   ]
 }
+//背景图片库
+const BgimagesStore = useBgimagesStore()
+const bgImages = BgimagesStore.bgImages
 
+//存储随机到的背景图片
+const currentBg = ref('');
+
+// 随机选择图片
+const getRandomBg = () => {
+  const randomIndex = Math.floor(Math.random() * bgImages.length);
+  currentBg.value = bgImages[randomIndex];
+};
+
+onMounted(() => {
+  getRandomBg(); // 初始化随机图片
+  window.addEventListener('beforeunload', getRandomBg); // 刷新前更新
+});
 
 const form = ref()
 const loginClick = async () => {
@@ -46,7 +62,7 @@ const loginClick = async () => {
 </script>
 
 <template>
-  <BaG>
+  <el-row class="bg" :style="{ backgroundImage: `url(${currentBg})` }">
     <el-col :span="6" :offset="9" class="login">
       <!-- 添加磨砂玻璃效果层 -->
       <div class="glass-effect">
@@ -69,21 +85,40 @@ const loginClick = async () => {
             <div>&nbsp;</div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="login-btn" @click="loginClick">登录系统</el-button>
+            <el-button type="primary" class="login-btn" color="#F89FB1" @click="loginClick">登录系统</el-button>
           </el-form-item>
           <el-form-item v-if="tokenShow">
             <el-button type="primary" class="login-btn" color="#FFE0F5" @click="tokenState">切换非token登录</el-button>
           </el-form-item>
           <el-form-item v-else>
-            <el-button type="primary" class="login-btn" @click="tokenState">切换token登录</el-button>
+            <el-button type="primary" class="login-btn" color="#BEDDEB" @click="tokenState">切换token登录</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-col>
-  </BaG>
+  </el-row>
 </template>
 
 <style lang="scss" scoped>
+.bg {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    filter: blur(10px);
+    z-index: 0;
+  }
+}
+
 .login {
   display: flex;
   flex-direction: column;
@@ -95,7 +130,14 @@ const loginClick = async () => {
 }
 
 /* 磨砂玻璃效果层 */
-
+.glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px) saturate(180%);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+}
 
 .title {
   text-align: center;

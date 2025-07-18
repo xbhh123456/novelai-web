@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import {
-  Menu as IconMenu,
-  Setting,
+  Menu as
+    Setting,
   User,
   Document,
   DataAnalysis,
@@ -59,23 +59,13 @@ const stats = [
         <h2 v-if="!isCollapse">后台管理</h2>
       </div>
 
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="isCollapse"
-        :collapse-transition="false"
-        @select="handleMenuSelect"
-        background-color="transparent"
-        text-color="#666"
-        active-text-color="#ff6b9d"
-        class="custom-menu"
-      >
-        <el-menu-item
-          v-for="item in menuItems"
-          :key="item.index"
-          :index="item.index"
-          class="menu-item"
-        >
-          <el-icon><component :is="item.icon" /></el-icon>
+      <el-menu :default-active="activeMenu" :collapse="isCollapse" :collapse-transition="false"
+        @select="handleMenuSelect" background-color="transparent" text-color="#666" active-text-color="#ff6b9d"
+        class="custom-menu">
+        <el-menu-item v-for="item in menuItems" :key="item.index" :index="item.index" class="menu-item">
+          <el-icon>
+            <component :is="item.icon" />
+          </el-icon>
           <template #title>{{ item.title }}</template>
         </el-menu-item>
       </el-menu>
@@ -86,13 +76,8 @@ const stats = [
       <!-- 顶部导航栏 -->
       <header class="navbar">
         <div class="navbar-left">
-          <el-button
-            :icon="isCollapse ? Expand : Fold"
-            @click="toggleSidebar"
-            circle
-            size="small"
-            class="collapse-btn"
-          />
+          <el-button :icon="isCollapse ? Expand : Fold" @click="toggleSidebar" circle size="small"
+            class="collapse-btn" />
           <span class="page-title">数据总览</span>
         </div>
 
@@ -149,12 +134,8 @@ const stats = [
 
             <!-- 统计卡片 -->
             <div class="stats-grid">
-              <div
-                v-for="(stat, index) in stats"
-                :key="index"
-                class="stat-card"
-                :style="{ backgroundColor: stat.bgColor }"
-              >
+              <div v-for="(stat, index) in stats" :key="index" class="stat-card"
+                :style="{ backgroundColor: stat.bgColor }">
                 <div class="stat-number" :style="{ color: stat.color }">{{ stat.value }}</div>
                 <div class="stat-label">{{ stat.label }}</div>
               </div>
@@ -164,7 +145,8 @@ const stats = [
             <div class="charts-section">
               <div class="chart-card">
                 <div class="chart-placeholder">
-                  <div class="chart-circle" style="background: conic-gradient(#ff6b9d 0deg 180deg, #f0f0f0 180deg 360deg)">
+                  <div class="chart-circle"
+                    style="background: conic-gradient(#ff6b9d 0deg 180deg, #f0f0f0 180deg 360deg)">
                     <div class="chart-center">
                       <div class="chart-value">CPU使用率</div>
                     </div>
@@ -173,7 +155,8 @@ const stats = [
               </div>
               <div class="chart-card">
                 <div class="chart-placeholder">
-                  <div class="chart-circle" style="background: conic-gradient(#ffa726 0deg 240deg, #f0f0f0 240deg 360deg)">
+                  <div class="chart-circle"
+                    style="background: conic-gradient(#ffa726 0deg 240deg, #f0f0f0 240deg 360deg)">
                     <div class="chart-center">
                       <div class="chart-value">内存占用</div>
                     </div>
@@ -535,9 +518,17 @@ const stats = [
 }
 
 @keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 // Element Plus 样式覆盖
@@ -549,5 +540,3 @@ const stats = [
   border-radius: 3px;
 }
 </style>
-
-

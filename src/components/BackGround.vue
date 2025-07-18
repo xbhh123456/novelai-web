@@ -1,14 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useBgimagesStore } from '@/stores'
 
 //背景图片库
-const bgImages = [
-  'src/assets/backgrounds/bg1.png',
-  'src/assets/backgrounds/bg2.png',
-  'src/assets/backgrounds/bg3.png',
-  'src/assets/backgrounds/bg4.png',
-  'src/assets/backgrounds/bg5.png',
-]
+const BgimagesStore = useBgimagesStore()
+const bgImages = BgimagesStore.bgImages
+
+
 //存储随机到的背景图片
 const currentBg = ref('');
 

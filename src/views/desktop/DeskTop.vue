@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import Background from '@/components/BackGround.vue';
+</script>
 
 <template>
-  <div>主页面</div>
+  <Background></Background>
 </template>
 
 <style lang="scss"></style>
