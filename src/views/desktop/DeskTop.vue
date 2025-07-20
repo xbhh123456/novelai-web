@@ -6,6 +6,7 @@ import { ref, onMounted } from 'vue'
 // const prompt = ref(""); //正向提示词
 // const Noprompt = ref(""); //反向提示词
 const currentBg = ref(''); //存储随机到的背景图片
+const Nai_Model = ref('nai')
 
 
 //背景图片库
@@ -24,18 +25,44 @@ onMounted(() => {
 });
 
 //用户添加图片
-// const imgurl = ref('src/assets/test/2.png')
-const imgurl = ref('src/assets/backgrounds/bg6.webp')
+const imgurl = ref('src/assets/test/2.png')
+// const imgurl = ref(currentBg)
 //添加图片后的预览
 const imgurlList = ref([
   imgurl.value
 ])
+
 //后台返回图片
 const createImg = ref('src/assets/test/2.png')
 //后台返回图片历史记录
 const createImgList = ref([
   createImg.value
 ])
+
+//test
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1',
+  },
+  {
+    value: 'Option2',
+    label: 'Option2',
+  },
+  {
+    value: 'Option3',
+    label: 'Option3',
+  },
+  {
+    value: 'Option4',
+    label: 'Option4',
+  },
+  {
+    value: 'Option5',
+    label: 'Option5',
+  },
+]
+
 </script>
 
 <template>
@@ -55,7 +82,16 @@ const createImgList = ref([
           <!-- 提示词模块 -->
           <el-col :span="12">
             <div class="sub-panel">
-              <div class="header-bar">顶栏标题</div>
+              <div class="header-bar">
+                //测试
+                <el-select v-model="Nai_Model" style="width: 240px">
+                  <el-option  v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">111</el-option>
+                </el-select>
+
+              </div>
               <el-input class="input-item" placeholder="输入框1" />
               <el-input class="input-item" placeholder="输入框2" />
               <div class="button-group">
@@ -169,16 +205,15 @@ const createImgList = ref([
   min-height: 54vh;
 }
 
-
 //顶部左大主体
 .sub-panel {
-  padding: 20px;
+  padding: 10px;
 }
 
 //顶部控制栏
 .header-bar {
-  height: 40px;
-  background: rgba(255, 255, 255, 0.15);
+  height: 10%;
+  background: rgba(47, 71, 136, 0.15);
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 15px;

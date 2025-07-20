@@ -14,6 +14,7 @@ export const useBgimagesStore = defineStore('background',() =>{
     // 'src/assets/backgrounds/bg8.webp',
     // 'src/assets/backgrounds/bg9.webp',
     // 'src/assets/backgrounds/bg10.webp',
+    // 'src/assets/backgrounds/bg11.webp',
     // 'src/assets/backgrounds/bg12.webp',
     // 'src/assets/backgrounds/bg13.webp',
     // 'src/assets/backgrounds/bg14.webp',
