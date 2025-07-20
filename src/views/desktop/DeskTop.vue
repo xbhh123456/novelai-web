@@ -1,17 +1,22 @@
 <script setup>
-import { useBgimagesStore } from '@/stores'
+import { useBgimagesStore, useNaicountstore } from '@/stores'
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, } from 'vue'
+// import { Sunny } from '@element-plus/icons-vue'
+
 
 // const prompt = ref(""); //正向提示词
 // const Noprompt = ref(""); //反向提示词
 const currentBg = ref(''); //存储随机到的背景图片
-const Nai_Model = ref('nai')
+const Nai_Model = ref('nai-diffusion-4-5-full') //选择的nai模型
 
 
 //背景图片库
 const BgimagesStore = useBgimagesStore()
 const bgImages = BgimagesStore.bgImages
+
+//novelai点数
+const Naicountstore = useNaicountstore()
 
 // 随机选择图片
 const getRandomBg = () => {
@@ -39,29 +44,35 @@ const createImgList = ref([
   createImg.value
 ])
 
-//test
-const options = [
+//novelai列表
+const Nai_ModelList = [
   {
-    value: 'Option1',
-    label: 'Option1',
+    value: 'nai-diffusion-4-5-full',
+    label: 'nai4.5-full',
   },
   {
-    value: 'Option2',
-    label: 'Option2',
+    value: 'nai-diffusion-4-5-curated',
+    label: 'nai4.5-curated',
   },
   {
-    value: 'Option3',
-    label: 'Option3',
+    value: 'nai-diffusion-4-full',
+    label: 'nai4-full',
   },
   {
-    value: 'Option4',
-    label: 'Option4',
+    value: 'nai-diffusion-4-curated-preview',
+    label: 'nai4-preview',
   },
   {
-    value: 'Option5',
-    label: 'Option5',
+    value: 'nai-diffusion-3',
+    label: 'nai3-anime',
+  },
+  {
+    value: 'nai-diffusion-furry-3',
+    label: 'nai3-furry',
   },
 ]
+
+
 
 </script>
 
@@ -83,13 +94,13 @@ const options = [
           <el-col :span="12">
             <div class="sub-panel">
               <div class="header-bar">
-                //测试
-                <el-select v-model="Nai_Model" style="width: 240px">
-                  <el-option  v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">111</el-option>
+                <!-- Nai模型 -->
+                <el-select v-model="Nai_Model" style="width: 160px;">
+                  <el-option v-for="item in Nai_ModelList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
+                <!-- 其他扩展内容 -->
+                <!-- <el-text type="primary" size="large" class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.Naicount }}</el-text> -->
+                <span class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.Naicount }}</span>
 
               </div>
               <el-input class="input-item" placeholder="输入框1" />
@@ -140,6 +151,7 @@ const options = [
 
       <!-- 底部模块 -->
       <div class="bottom-section transparent-card" style="height:44%;">
+        <p>{{ Nai_Model }}</p>
         <!-- 底部内容 -->
       </div>
     </el-col>
@@ -217,6 +229,8 @@ const options = [
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 15px;
+  // width: 100%;
+  // min-height: 100%;
 }
 
 //提示词输入区
@@ -262,5 +276,29 @@ const options = [
 .right-imgStyle {
   height: 100%;
   border-radius: 20px;
+}
+
+//
+// .top-header {
+
+// }
+.span-Naicount {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+  padding: 6px 24px;
+
+  /* 优化显示效果 */
+  display: inline-block;
+  text-align: center;
+  min-width: 150px;
+
+  /* 原有样式 */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 </style>
