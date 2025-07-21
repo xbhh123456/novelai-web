@@ -5,8 +5,8 @@ import { ref, onMounted, } from 'vue'
 // import { Sunny } from '@element-plus/icons-vue'
 
 
-// const prompt = ref(""); //正向提示词
-// const Noprompt = ref(""); //反向提示词
+const prompt = ref(""); //正向提示词
+const Noprompt = ref(""); //反向提示词
 const currentBg = ref(''); //存储随机到的背景图片
 const Nai_Model = ref('nai-diffusion-4-5-full') //选择的nai模型
 
@@ -100,14 +100,26 @@ const Nai_ModelList = [
                 </el-select>
                 <!-- 其他扩展内容 -->
                 <!-- <el-text type="primary" size="large" class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.Naicount }}</el-text> -->
-                <span class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.Naicount }}</span>
-
+                <span class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.NovelCount }}</span>
               </div>
-              <el-input class="input-item" placeholder="输入框1" />
-              <el-input class="input-item" placeholder="输入框2" />
-              <div class="button-group">
+
+              <div class="input-button"></div>
+              <!-- //正向提示词 -->
+              <div class="input-item">
+                <el-input type="textarea" placeholder="正向提示词" v-model="prompt" :autosize="{ minRows: 3, maxRows: 4 }" />
+              </div>
+              <div class="input-button"></div>
+              <!-- //反向提示词 -->
+              <div class="input-item">
+                <el-input type="textarea" placeholder="反向提示词" v-model="Noprompt"
+                  :autosize="{ minRows: 3, maxRows: 4 }" />
+              </div>
+              <div class="input-button">
                 <el-button type="primary">按钮1</el-button>
                 <el-button type="success">按钮2</el-button>
+              </div>
+              <div class="transparent-card">
+
               </div>
             </div>
           </el-col>
@@ -165,6 +177,10 @@ const Nai_ModelList = [
 </template>
 
 <style lang="scss">
+// 定义基础变量（便于全局调整）
+$naicount-margin-base: 32px !default; // 默认基准值
+$naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
+
 //背景
 .bg {
   height: 100vh;
@@ -228,19 +244,32 @@ const Nai_ModelList = [
   background: rgba(47, 71, 136, 0.15);
   border-radius: 8px;
   padding: 10px;
-  margin-bottom: 15px;
+  // margin-bottom: 1px;
   // width: 100%;
   // min-height: 100%;
 }
 
 //提示词输入区
 .input-item {
-  margin-bottom: 15px;
+  margin-top: 30px;
+  width: 99%;
+
+  // ::v-deep .el-textarea__inner {
+  //   height: 120px !important;
+  //   /* 固定高度 */
+  //   resize: vertical;
+  //   /* 允许垂直调整 */
+  //   padding: 12px 15px !important;
+  //   /* 内容从左上角开始 */
+  //   line-height: 1.5;
+  //   /* 行高优化 */
+  //   vertical-align: top;
+  //   /* 文本顶部对齐 */
+  // }
 }
 
 //切换模式区
-.button-group {
-  margin-top: 20px;
+.input-button {
   display: flex;
   gap: 10px;
 }
@@ -278,11 +307,11 @@ const Nai_ModelList = [
   border-radius: 20px;
 }
 
-//
-// .top-header {
 
-// }
+//剩余点数模块
 .span-Naicount {
+  margin-left: $naicount-margin-base;
+  margin-right: $naicount-margin-base;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -292,13 +321,57 @@ const Nai_ModelList = [
   /* 优化显示效果 */
   display: inline-block;
   text-align: center;
-  min-width: 150px;
+  min-width: 100px;
 
-  /* 原有样式 */
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  //适配手机
+  @media (max-width: 768px) {
+    margin-left: $naicount-margin-base * $naicount-responsive-scale;
+    margin-right: $naicount-margin-base * $naicount-responsive-scale;
+  }
+
+  // 可选状态扩展
+  &-compact {
+    // 紧凑模式变体
+    margin-left: $naicount-margin-base * 0.5;
+    margin-right: $naicount-margin-base * 0.5;
+  }
+
+  &-highlight {
+    // 强调模式增加间距
+    margin-left: $naicount-margin-base * 1.5;
+    margin-right: $naicount-margin-base * 1.5;
+  }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .glass-effect {
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .title {
+    color: #e0e0e0;
+  }
+}
+
+@media (max-width: 992px) {
+  .login {
+    width: 70% !important;
+    margin: 0 auto !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .login {
+    width: 90% !important;
+    padding: 20px !important;
+  }
+
+  .bg::before {
+    filter: blur(1px); // 移动端减小模糊度
+  }
 }
 </style>

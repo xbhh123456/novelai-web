@@ -7,5 +7,5 @@ pinia.use(piniaPluginPersistedstate)
 export * from './modules/auth.js'
 export * from './modules/background.js'
 export * from './modules/style.js'
-
+export * from './modules/user.js'
 export default pinia
