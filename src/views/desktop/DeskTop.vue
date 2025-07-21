@@ -1,7 +1,7 @@
 <script setup>
 import { useBgimagesStore, useNaicountstore } from '@/stores'
 import 'element-plus/theme-chalk/dark/css-vars.css'
-import { ref, onMounted, } from 'vue'
+import { ref, onMounted } from 'vue'
 // import { Sunny } from '@element-plus/icons-vue'
 
 
@@ -9,7 +9,11 @@ const prompt = ref(""); //正向提示词
 const Noprompt = ref(""); //反向提示词
 const currentBg = ref(''); //存储随机到的背景图片
 const Nai_Model = ref('nai-diffusion-4-5-full') //选择的nai模型
-
+const nai_scale = ref(4)
+const nai_steps = ref(24)
+const nai_width = ref(768)
+const nai_height = ref(1240)
+const nai_fix = ref(1)
 
 //背景图片库
 const BgimagesStore = useBgimagesStore()
@@ -111,16 +115,48 @@ const Nai_ModelList = [
               <div class="input-button"></div>
               <!-- //反向提示词 -->
               <div class="input-item">
-                <el-input type="textarea" placeholder="反向提示词" v-model="Noprompt"
-                  :autosize="{ minRows: 3, maxRows: 4 }" />
+                <el-input type="textarea" placeholder="反向提示词" v-model="Noprompt" :autosize="{ maxRows: 2.5 }" />
               </div>
-              <div class="input-button">
-                <el-button type="primary">按钮1</el-button>
-                <el-button type="success">按钮2</el-button>
-              </div>
-              <div class="transparent-card">
+              <div class="transparent-tabs-container">
 
               </div>
+              <el-tabs type="border-card" stretch="true" class="transparent-card nai_scale_table">
+                <el-tab-pane label="基本参数面板">
+                  <el-row>
+                    <!-- 服从度 -->
+                    <el-col :span="10">
+                      <el-slider v-model="nai_scale" show-input class="nai_scale_slider" :max="10" :min="0.1" step="0.1"
+                        title="服从度" show-input-controls="true" />
+                    </el-col>
+                    <!-- 步数 -->
+                    <el-col :span="14">
+                      <el-slider v-model="nai_steps" show-input class="nai_steps_slider" :max="30" :min="16" title="步数"
+                        show-input-controls="true" />
+                    </el-col>
+                    <!-- 宽度 -->
+                    <el-col style="display: flex; align-items: center; gap: 10px;">
+                      <span style="color: #FADADD">宽度</span>
+                      <el-slider v-model="nai_width" show-input class="nai_width_slider" show-input-controls="true"
+                        title="宽度" :min="512" :max="1536" step="64" show-stops />
+                    </el-col>
+                    <!-- 高度 -->
+                    <el-col style="display: flex; align-items: center; gap: 10px;">
+                      <span style="color: #FFC0CB;">高度</span>
+                      <el-slider v-model="nai_height" show-input class="nai_height_slider" show-input-controls="true"
+                        title="高度" :min="512" :max="1536" step="64" show-stops />
+                    </el-col>
+                    <!-- 张数 -->
+                    <el-col :span="12" style="display: flex; align-items: center; gap: 10px;">
+                      <span style="color: #FFB6C1;">张数</span>
+                      <el-slider v-model="nai_fix" show-input class="nai_fix_slider" show-input-controls="true"
+                        title="张数" :min="1" :max="8" step="1" show-stops />
+                    </el-col>
+
+
+                  </el-row>
+
+                </el-tab-pane>
+              </el-tabs>
             </div>
           </el-col>
 
@@ -230,7 +266,7 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //主体总控制
 .top-section {
-  min-height: 54vh;
+  min-height: 58vh;
 }
 
 //顶部左大主体
@@ -240,7 +276,7 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //顶部控制栏
 .header-bar {
-  height: 10%;
+  height: 8%;
   background: rgba(47, 71, 136, 0.15);
   border-radius: 8px;
   padding: 10px;
@@ -307,6 +343,38 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
   border-radius: 20px;
 }
 
+//滑块-优先级
+.nai_scale_slider {
+  width: 95%;
+}
+
+//滑块-步骤
+.nai_steps_slider {
+  width: 100%;
+}
+
+//标签页
+.nai_scale_table {
+  margin-top: 2px;
+  width: 99%;
+  background-color: transparent;
+  border: none;
+}
+
+//滑块-宽度
+.nai_width_slider {
+  width: 100%;
+}
+
+//滑块-高度
+.nai_height_slider {
+  width: 100%;
+}
+
+//滑块-张数
+.nai_fix_slider {
+  width: 100%;
+}
 
 //剩余点数模块
 .span-Naicount {
