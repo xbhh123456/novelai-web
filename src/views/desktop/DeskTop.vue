@@ -9,11 +9,72 @@ const prompt = ref(""); //正向提示词
 const Noprompt = ref(""); //反向提示词
 const currentBg = ref(''); //存储随机到的背景图片
 const Nai_Model = ref('nai-diffusion-4-5-full') //选择的nai模型
-const nai_scale = ref(4)
-const nai_steps = ref(24)
-const nai_width = ref(768)
-const nai_height = ref(1240)
-const nai_fix = ref(1)
+const nai_scale = ref(4) //默认的服从度
+const nai_steps = ref(24) //默认的步数
+const nai_width = ref(768)  //默认的宽度
+const nai_height = ref(1240)  //默认的高度
+const nai_fix = ref(1) //默认的张数
+const nai_sampler = ref('k_euler_ancestral')
+const nai_seed = ref(0) //默认的随机数
+
+//novelai列表
+const Nai_ModelList = [
+  {
+    value: 'nai-diffusion-4-5-full',
+    label: 'nai4.5-full',
+  },
+  {
+    value: 'nai-diffusion-4-5-curated',
+    label: 'nai4.5-curated',
+  },
+  {
+    value: 'nai-diffusion-4-full',
+    label: 'nai4-full',
+  },
+  {
+    value: 'nai-diffusion-4-curated-preview',
+    label: 'nai4-preview',
+  },
+  {
+    value: 'nai-diffusion-3',
+    label: 'nai3-anime',
+  },
+  {
+    value: 'nai-diffusion-furry-3',
+    label: 'nai3-furry',
+  },
+]
+//采样方式
+const Nai_SamplerList = [
+  {
+    value: 'k_euler',
+    label: 'Euler',
+  },
+  {
+    value: 'k_euler_ancestral',
+    label: 'Euler_a',
+  },
+  {
+    value: 'k_dpmpp_2s_ancestral',
+    label: 'dpmpp_2s',
+  },
+  {
+    value: 'k_dpmpp_2m',
+    label: 'dpmpp_2m',
+  },
+  {
+    value: 'k_dpmpp_2m_sde',
+    label: 'dpmpp_2m_sde',
+  },
+  {
+    value: 'k_dpmpp_sde',
+    label: 'dpmpp_sde',
+  },
+  {
+    value: 'ddim_v3',
+    label: 'ddim_v3',
+  }
+]
 
 //背景图片库
 const BgimagesStore = useBgimagesStore()
@@ -48,33 +109,7 @@ const createImgList = ref([
   createImg.value
 ])
 
-//novelai列表
-const Nai_ModelList = [
-  {
-    value: 'nai-diffusion-4-5-full',
-    label: 'nai4.5-full',
-  },
-  {
-    value: 'nai-diffusion-4-5-curated',
-    label: 'nai4.5-curated',
-  },
-  {
-    value: 'nai-diffusion-4-full',
-    label: 'nai4-full',
-  },
-  {
-    value: 'nai-diffusion-4-curated-preview',
-    label: 'nai4-preview',
-  },
-  {
-    value: 'nai-diffusion-3',
-    label: 'nai3-anime',
-  },
-  {
-    value: 'nai-diffusion-furry-3',
-    label: 'nai3-furry',
-  },
-]
+
 
 
 
@@ -99,12 +134,22 @@ const Nai_ModelList = [
             <div class="sub-panel">
               <div class="header-bar">
                 <!-- Nai模型 -->
-                <el-select v-model="Nai_Model" style="width: 160px;">
+                <el-select v-model="Nai_Model" style="width: 160px;" class="transparent-card select-Naitop">
                   <el-option v-for="item in Nai_ModelList" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
+                <el-select v-model="nai_sampler" style="width: 180px;" class="transparent-card select-Naitop">
+                  <el-option v-for="item in Nai_SamplerList" :key="item.value" :label="item.label"
+                    :value="item.value" />
                 </el-select>
                 <!-- 其他扩展内容 -->
                 <!-- <el-text type="primary" size="large" class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.Naicount }}</el-text> -->
                 <span class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.NovelCount }}</span>
+                <!-- 绘画开关按钮 -->
+                <el-button size="large" round style="width: 150px;" color="#F89FB1">
+                  <img src="@/assets/hua.png" alt="Custom Icon"
+                    style="width: 20px; height: 20px; margin-right: 8px;" />
+                    启动绘画程序
+                </el-button>
               </div>
 
               <div class="input-button"></div>
@@ -138,13 +183,13 @@ const Nai_ModelList = [
                     <el-col style="display: flex; align-items: center; gap: 10px;">
                       <span style="color: #FADADD">宽度</span>
                       <el-slider v-model="nai_width" show-input class="nai_width_slider" show-input-controls="true"
-                        title="宽度" :min="512" :max="1536" step="64" show-stops />
+                        title="宽度" :min="512" :max="1920" step="64" show-stops />
                     </el-col>
                     <!-- 高度 -->
                     <el-col style="display: flex; align-items: center; gap: 10px;">
                       <span style="color: #FFC0CB;">高度</span>
                       <el-slider v-model="nai_height" show-input class="nai_height_slider" show-input-controls="true"
-                        title="高度" :min="512" :max="1536" step="64" show-stops />
+                        title="高度" :min="512" :max="1920" step="64" show-stops />
                     </el-col>
                     <!-- 张数 -->
                     <el-col :span="12" style="display: flex; align-items: center; gap: 10px;">
@@ -153,9 +198,7 @@ const Nai_ModelList = [
                         title="张数" :min="1" :max="8" step="1" show-stops />
                     </el-col>
 
-
                   </el-row>
-
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -286,6 +329,21 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
   // min-height: 100%;
 }
 
+//顶栏下拉框
+.select-Naitop {
+  margin-right: $naicount-margin-base;
+  // display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+  padding: 6px 10px;
+
+  /* 优化显示效果 */
+  display: inline-block;
+  text-align: center;
+  min-width: 100px;
+}
+
 //提示词输入区
 .input-item {
   margin-top: 30px;
@@ -379,7 +437,7 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //剩余点数模块
 .span-Naicount {
-  margin-left: $naicount-margin-base;
+  // margin-left: $naicount-margin-base;
   margin-right: $naicount-margin-base;
   display: flex;
   align-items: center;
