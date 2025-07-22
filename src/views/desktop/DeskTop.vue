@@ -115,7 +115,8 @@ const Nai_ModelList = [
               <div class="input-button"></div>
               <!-- //反向提示词 -->
               <div class="input-item">
-                <el-input type="textarea" placeholder="反向提示词" v-model="Noprompt" :autosize="{ maxRows: 2.5 }" />
+                <el-input type="textarea" placeholder="反向提示词" v-model="Noprompt"
+                  :autosize="{ minRows: 3, maxRows: 4 }" />
               </div>
               <div class="transparent-tabs-container">
 
@@ -312,7 +313,7 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //上传图片展示区
 .left-img-module {
-  height: 54vh;
+  height: 58vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -329,7 +330,7 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //返回图片展示区
 .right-img-module {
-  height: 54vh;
+  height: 58vh;
   display: flex;
   justify-content: center;
   align-items: center;
