@@ -2,11 +2,13 @@
 import { useBgimagesStore, useNaicountstore } from '@/stores'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import { ref, onMounted } from 'vue'
-// import { Sunny } from '@element-plus/icons-vue'
+// import { el-upload } from '@element-plus/icons-vue'
+import { UploadProps, UploadUserFile } from 'element-plus'
 
 
 const prompt = ref(""); //正向提示词
 const Noprompt = ref(""); //反向提示词
+const imgurl = ref('src/assets/test/2.png') //用户添加图片
 const currentBg = ref(''); //存储随机到的背景图片
 const Nai_Model = ref('nai-diffusion-4-5-full') //选择的nai模型
 const nai_scale = ref(4) //默认的服从度
@@ -15,7 +17,7 @@ const nai_width = ref(768)  //默认的宽度
 const nai_height = ref(1240)  //默认的高度
 const nai_fix = ref(1) //默认的张数
 const nai_sampler = ref('k_euler_ancestral')
-const nai_seed = ref(0) //默认的随机数
+// const nai_seed = ref(0) //默认的随机数
 
 //novelai列表
 const Nai_ModelList = [
@@ -94,8 +96,8 @@ onMounted(() => {
   window.addEventListener('beforeunload', getRandomBg); // 刷新前更新
 });
 
-//用户添加图片
-const imgurl = ref('src/assets/test/2.png')
+
+
 // const imgurl = ref(currentBg)
 //添加图片后的预览
 const imgurlList = ref([
@@ -130,14 +132,14 @@ const createImgList = ref([
       <div class="top-section transparent-card">
         <el-row :gutter="10">
           <!-- 提示词模块 -->
-          <el-col :span="12">
+          <el-col :span="14">
             <div class="sub-panel">
               <div class="header-bar">
                 <!-- Nai模型 -->
-                <el-select v-model="Nai_Model" style="width: 160px;" class="transparent-card select-Naitop">
+                <el-select v-model="Nai_Model" style="width: 150px;" class="transparent-card select-Naitop">
                   <el-option v-for="item in Nai_ModelList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
-                <el-select v-model="nai_sampler" style="width: 180px;" class="transparent-card select-Naitop">
+                <el-select v-model="nai_sampler" style="width: 160px;" class="transparent-card select-Naitop">
                   <el-option v-for="item in Nai_SamplerList" :key="item.value" :label="item.label"
                     :value="item.value" />
                 </el-select>
@@ -146,10 +148,10 @@ const createImgList = ref([
                 <span class="transparent-card span-Naicount">剩余点数：{{ Naicountstore.NovelCount }}</span>
                 <!-- 绘画开关按钮 -->
                 <el-button size="large" round style="width: 150px;" color="#F89FB1">
-                  <img src="@/assets/hua.png" alt="Custom Icon"
-                    style="width: 20px; height: 20px; margin-right: 8px;" />
-                    启动绘画程序
+                  <img src="@/assets/hua.png" alt="Custom Icon" style="width: 20px; height: 20px; margin-right: 8px;" />
+                  启动绘画程序
                 </el-button>
+
               </div>
 
               <div class="input-button"></div>
@@ -205,7 +207,7 @@ const createImgList = ref([
           </el-col>
 
           <!-- 上传图片显示模块 -->
-          <el-col :span="6" class="transparent-card">
+          <el-col :span="5" class="transparent-card">
             <div class="left-img-module">
               <el-image class="left-imgStyle" :src="imgurl" fit="contain" :preview-src-list="imgurlList"
                 preview-teleported="false">
@@ -216,7 +218,7 @@ const createImgList = ref([
             </div>
           </el-col>
           <!-- 结果图片模块 -->
-          <el-col :span="6" class="transparent-card">
+          <el-col :span="5" class="transparent-card">
             <div class="right-img-module">
               <el-image class="right-imgStyle" fit="contain" :src="createImg" :preview-src-list="createImgList"
                 preview-teleported="false">
@@ -258,7 +260,7 @@ const createImgList = ref([
 
 <style lang="scss">
 // 定义基础变量（便于全局调整）
-$naicount-margin-base: 32px !default; // 默认基准值
+$naicount-margin-base: 20px !default; // 默认基准值
 $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
 
 //背景
@@ -443,12 +445,12 @@ $naicount-responsive-scale: 0.8 !default; // 响应式缩放系数
   align-items: center;
   gap: 12px;
   flex-grow: 1;
-  padding: 6px 24px;
+  padding: 8px 12px;
 
   /* 优化显示效果 */
   display: inline-block;
   text-align: center;
-  min-width: 100px;
+  min-width: 10px;
 
   //适配手机
   @media (max-width: 768px) {
