@@ -3,7 +3,7 @@ import { useBgimagesStore, useNaicountstore } from '@/stores'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import { ref, onMounted } from 'vue'
 // import { el-upload } from '@element-plus/icons-vue'
-import { UploadProps, UploadUserFile } from 'element-plus'
+// import { UploadProps, UploadUserFile } from 'element-plus'
 
 
 const prompt = ref(""); //正向提示词

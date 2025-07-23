@@ -18,6 +18,10 @@ const router = createRouter({
       component: () => import('@/views/backend/BackManage.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path:'/test',
+      component:() => import('@/views/test/test.vue')
+    }
   ],
 })
 
