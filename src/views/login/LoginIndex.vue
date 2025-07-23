@@ -7,20 +7,21 @@ import { useBgimagesStore } from '@/stores'
 
 // import { userRequestServer } from '@/api/user'
 // import { ElButton } from 'element-plus'
-
+//登录所需的参数
 const LoginFrom = ref({
   username: '',
   password: '',
   token: ''
 })
-
+//token的显示隐藏
 const tokenShow = ref(false)
 
+//切换登录方式
 const tokenState = () => {
   tokenShow.value = !tokenShow.value
   LoginFrom.value = {}
 }
-
+//登录参数的前置校验
 const rules = {
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -45,19 +46,19 @@ const getRandomBg = () => {
   const randomIndex = Math.floor(Math.random() * bgImages.length);
   currentBg.value = bgImages[randomIndex];
 };
-
+// 初始化随机图片
 onMounted(() => {
-  getRandomBg(); // 初始化随机图片
+  getRandomBg();
   window.addEventListener('beforeunload', getRandomBg); // 刷新前更新
 });
 
 const form = ref()
+
+//登录按钮
 const loginClick = async () => {
   await form.value.validate()
   // await userRequestServer(LoginFrom.value)
 }
-
-
 
 </script>
 

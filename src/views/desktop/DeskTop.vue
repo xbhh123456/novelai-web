@@ -2,6 +2,13 @@
 import { useBgimagesStore, useNaicountstore } from '@/stores'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import { ref, onMounted } from 'vue'
+// import {
+//   generateImage,
+//   lineart,
+//   sketch,
+//   backgroundRemoval,
+//   checkApiStatus
+// } from '@/api/novelai'
 // import { el-upload } from '@element-plus/icons-vue'
 // import { UploadProps, UploadUserFile } from 'element-plus'
 
@@ -96,9 +103,6 @@ onMounted(() => {
   window.addEventListener('beforeunload', getRandomBg); // 刷新前更新
 });
 
-
-
-// const imgurl = ref(currentBg)
 //添加图片后的预览
 const imgurlList = ref([
   imgurl.value
@@ -111,6 +115,31 @@ const createImgList = ref([
   createImg.value
 ])
 
+//-----------------------------//网络请求
+//生成图片
+// const handleGenerateImage = async () => {
+//   const data = {
+//     prompt: prompt.value,
+//     negative_prompt: Noprompt.value,
+//     model: Nai_Model.value,
+//     steps: nai_steps.value,
+//     scale: nai_scale.value,
+//     seed: null,
+//     width: nai_width.value,
+//     height: nai_height.value,
+//     sampler: nai_sampler.value,
+//     fix: nai_fix.value
+//   }
+//   createImg.value = await generateImage(data)
+// };
+
+// //图生线稿
+// const handleLineart = async () => {
+//   const data = {
+//     file: imgurl.value
+//   }
+//   createImg.value = await lineart(data)
+// };
 
 
 
@@ -168,36 +197,36 @@ const createImgList = ref([
               <div class="transparent-tabs-container">
 
               </div>
-              <el-tabs type="border-card" stretch="true" class="transparent-card nai_scale_table">
+              <el-tabs type="border-card" :stretch="true" class="transparent-card nai_scale_table">
                 <el-tab-pane label="基本参数面板">
                   <el-row>
                     <!-- 服从度 -->
                     <el-col :span="10">
-                      <el-slider v-model="nai_scale" show-input class="nai_scale_slider" :max="10" :min="0.1" step="0.1"
-                        title="服从度" show-input-controls="true" />
+                      <el-slider v-model="nai_scale" show-input class="nai_scale_slider" :max="10" :min="0.1" :step="0.1"
+                        title="服从度" :show-input-controls=true />
                     </el-col>
                     <!-- 步数 -->
                     <el-col :span="14">
                       <el-slider v-model="nai_steps" show-input class="nai_steps_slider" :max="30" :min="16" title="步数"
-                        show-input-controls="true" />
+                        :show-input-controls=true />
                     </el-col>
                     <!-- 宽度 -->
                     <el-col style="display: flex; align-items: center; gap: 10px;">
                       <span style="color: #FADADD">宽度</span>
-                      <el-slider v-model="nai_width" show-input class="nai_width_slider" show-input-controls="true"
-                        title="宽度" :min="512" :max="1920" step="64" show-stops />
+                      <el-slider v-model="nai_width" show-input class="nai_width_slider" :show-input-controls=true
+                        title="宽度" :min="512" :max="1920" :step="64" show-stops />
                     </el-col>
                     <!-- 高度 -->
                     <el-col style="display: flex; align-items: center; gap: 10px;">
                       <span style="color: #FFC0CB;">高度</span>
-                      <el-slider v-model="nai_height" show-input class="nai_height_slider" show-input-controls="true"
-                        title="高度" :min="512" :max="1920" step="64" show-stops />
+                      <el-slider v-model="nai_height" show-input class="nai_height_slider" :show-input-controls=true
+                        title="高度" :min="512" :max="1920" :step="64" show-stops />
                     </el-col>
                     <!-- 张数 -->
                     <el-col :span="12" style="display: flex; align-items: center; gap: 10px;">
                       <span style="color: #FFB6C1;">张数</span>
-                      <el-slider v-model="nai_fix" show-input class="nai_fix_slider" show-input-controls="true"
-                        title="张数" :min="1" :max="8" step="1" show-stops />
+                      <el-slider v-model="nai_fix" show-input class="nai_fix_slider" :show-input-controls=true
+                        title="张数" :min="1" :max="8" :step="1" show-stops />
                     </el-col>
 
                   </el-row>
@@ -210,7 +239,7 @@ const createImgList = ref([
           <el-col :span="5" class="transparent-card">
             <div class="left-img-module">
               <el-image class="left-imgStyle" :src="imgurl" fit="contain" :preview-src-list="imgurlList"
-                preview-teleported="false">
+              preview-teleported=false>
                 <template #error>
                   <div></div>
                 </template>
@@ -221,7 +250,7 @@ const createImgList = ref([
           <el-col :span="5" class="transparent-card">
             <div class="right-img-module">
               <el-image class="right-imgStyle" fit="contain" :src="createImg" :preview-src-list="createImgList"
-                preview-teleported="false">
+                preview-teleported=false>
                 <template #error>
                   <div></div>
                 </template>

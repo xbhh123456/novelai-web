@@ -40,7 +40,7 @@ import {
   sketch,
   backgroundRemoval,
   checkApiStatus
-} from '../api/novelai'
+} from '@/api/novelai'
 
 const prompt = ref('masterpiece, best quality, 1girl, solo, long hair, blue eyes, white dress, forest, sunlight')
 const selectedFile = ref(null)

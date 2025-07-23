@@ -9,16 +9,16 @@ const service = axios.create({
 })
 
 // 请求拦截器
-service.intertceptors.response.use(
+service.interceptors.request.use(
   config => {
-    console.log('请求成功',config)
+    console.log('发送请求:', config)
     return config
   },
   error => {
-    console.log('请求失败',error)
+    console.error('请求错误:', error)
     return Promise.reject(error)
   }
- )
+)
 
 // 响应拦截器
 service.interceptors.response.use(

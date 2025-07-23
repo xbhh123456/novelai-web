@@ -9,11 +9,11 @@ export function checkApiStatus(){
 }
 
 //图片生成
-export function generateImage(data){
+export function generateImage(data) {
   return request({
-    url:'/generate-image/',
-    method:'post',
-    data,
+    url: '/generate-image/',
+    method: 'post',
+    data,  // 直接传入，让调用者构造完整对象
     responseType: 'blob'
   })
 }
